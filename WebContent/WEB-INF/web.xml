@@ -1,0 +1,47 @@
+<web-app>
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.login.servlet.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Register1Servlet</servlet-name>
+		<servlet-class>com.login.servlet.Register1Servlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ListServlet</servlet-name>
+		<servlet-class>com.login.servlet.ListServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ContactServlet</servlet-name>
+		<servlet-class>com.login.servlet.ContactServlet</servlet-class>
+	</servlet>
+	<servlet>
+	<servlet-name>NewContactServlet </servlet-name>
+	<servlet-class>com.login.servlet.NewContactServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Register1Servlet</servlet-name>
+		<url-pattern>/register</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ListServlet</servlet-name>
+		<url-pattern>/list</url-pattern>	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ContactServlet</servlet-name>
+		<url-pattern>/contactdetails</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	<servlet-name>NewContactServlet</servlet-name>
+	<url-pattern>/newcontact</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
