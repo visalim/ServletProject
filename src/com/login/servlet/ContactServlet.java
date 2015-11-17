@@ -29,7 +29,8 @@ public class ContactServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rd= request.getRequestDispatcher("contactdetails.jsp");
+		System.out.println("in details");
+		RequestDispatcher rd= request.getRequestDispatcher("details.jsp");
         //display a message to client.store message in request object
        //forwarding to jsp
         rd.forward(request, response);
