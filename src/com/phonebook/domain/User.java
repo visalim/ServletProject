@@ -1,4 +1,4 @@
-package com.user.domain;
+package com.phonebook.domain;
 public class User {
 	int id;
 	String name;
