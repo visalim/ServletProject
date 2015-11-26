@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="com.phonebook.domain.Contact"%>
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -41,18 +42,19 @@
 							</div>
 							<div class="panel-body">
 								<table class="table table-user-information">
+								<% Contact contact = (Contact)request.getAttribute("contact"); %>
 									<tbody>
 									  <tr>
 										<td>Name:</td>
-										<td><%= request.getAttribute("username") %></td>
+										<td><%= contact.getName() %></td>
 									  </tr>
 									  <tr>
 										<td>Email:</td>
-										<td><%= request.getAttribute("email") %></td>
+										<td><%= contact.getEmail() %></td>
 									  </tr>
 									  <tr>
 										<td>Mobile</td>
-										<td><%= request.getAttribute("mobile") %></td>
+										<td><%= contact.getMobile() %></td>
 									  </tr>
 									</tbody>
 								  </table>

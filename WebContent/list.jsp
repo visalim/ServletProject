@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -96,7 +93,7 @@
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-md-4 col-md-offset-4">
-							Angularjs Demo by <i class="glyphicon glyphicon-user"></i> Visali Manne
+							Angularjs Demo by <i class="glyphicon glyphicon-user"></i> Jagadeesh Manne
 						</div>
 					</div>
 				</div>

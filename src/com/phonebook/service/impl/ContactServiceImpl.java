@@ -9,26 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.phonebook.domain.Contact;
+import com.phonebook.domain.impl.ContactImpl;
 import com.phonebook.service.ContactService;
 
-public class ContactServiceImpl implements ContactService{
+public class ContactServiceImpl implements ContactService {
 	public Connection getConnection() throws Exception {
 		Connection connection = null;
-		Class.forName("com.mysql.jdbc.driver");
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "root", "root");
+		Class.forName("com.mysql.jdbc.Driver");
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/phonebook", "root", "root");
 		return connection;
 	}
 
 	public Contact save(Contact contact) {
 		try {
 			Connection connection = getConnection();
-			String sql = "insert into contact(id,name,email,mobile) values('?,?,?,?')";
+			String sql = "insert into contact(id,name,email,mobile) values(?,?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			pstmt.executeUpdate();
 			pstmt.setInt(1, contact.getId());
 			pstmt.setString(2, contact.getName());
 			pstmt.setString(3, contact.getEmail());
 			pstmt.setString(4, contact.getMobile());
+			pstmt.executeUpdate();
 			ResultSet generatedKeys = pstmt.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				contact.setId(generatedKeys.getInt(1));
@@ -74,16 +75,16 @@ public class ContactServiceImpl implements ContactService{
 		return contact;
 	}
 
-	public List<Contact> list() {
-		List<Contact> contacts = new ArrayList<Contact>();
+	public List<ContactImpl> list() {
+		List<ContactImpl> contacts = new ArrayList<ContactImpl>();
 		try {
 			Connection connection = getConnection();
 			PreparedStatement pstmt = null;
-			String sql = "select * from customer";
+			String sql = "select * from contact";
 			pstmt = connection.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Contact contact = new Contact();
+				ContactImpl contact = new ContactImpl();
 				contact.setId(rs.getInt(1));
 				contact.setName(rs.getString(2));
 				contact.setEmail(rs.getString(3));
@@ -106,7 +107,7 @@ public class ContactServiceImpl implements ContactService{
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				contact = new Contact();
+				contact = new ContactImpl();
 				contact.setId(id);
 				contact.setName(rs.getString(2));
 				contact.setEmail(rs.getString(3));

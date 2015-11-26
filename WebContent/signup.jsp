@@ -39,7 +39,10 @@
 								<strong> Signup</strong>
 							</div>
 							<div class="panel-body">
-								<form role="form" action="#" method="POST">
+								<form role="form" action="user" method="POST">
+								<% if(request.getAttribute("error")!=null){ %>
+								  <%=  (String)request.getAttribute("error")%>
+								  <%} %>
 									<fieldset>
 										<div class="row">
 											<div class="col-sm-12 col-md-10  col-md-offset-1 ">
