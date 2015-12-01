@@ -7,21 +7,25 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.phonebook.domain.impl.UserImpl;
+import com.phonebook.service.PhoneBookConstant;
 import com.phonebook.service.UserService;
 import com.phonebook.domain.User;
 
 public class UserServiceImpl implements UserService {
+
+	Connection connection = null;
+
 	public Connection getConnection() throws Exception {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/phonebook", "root", "root");
+		Class.forName(PhoneBookConstant.DRIVER_NAME);
+		Connection connection = DriverManager.getConnection(PhoneBookConstant.DRIVER_URL, PhoneBookConstant.USER_NAME,
+				PhoneBookConstant.PASSWORD);
 		return connection;
 	}
 
-	public User save(User user) {
+	public User save(User user) throws Exception {
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "insert into  user(name,email,password)values(?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, user.getName());
@@ -34,14 +38,16 @@ public class UserServiceImpl implements UserService {
 			}
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return user;
 	}
 
-	public boolean delete(int id) {
+	public boolean delete(int id) throws Exception {
 		boolean isdeleted = false;
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "delete from user where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, id);
@@ -52,13 +58,15 @@ public class UserServiceImpl implements UserService {
 			}
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return isdeleted;
 	}
 
-	public User update(User user) {
+	public User update(User user) throws Exception {
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "update user set name=?,email=?,password=? where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.executeUpdate();
@@ -68,14 +76,16 @@ public class UserServiceImpl implements UserService {
 			pstmt.setInt(1, user.getId());
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return user;
 	}
 
-	public List<User> list() {
+	public List<User> list() throws Exception {
 		List<User> Users = new ArrayList<User>();
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "select id,name,email from user";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -90,14 +100,16 @@ public class UserServiceImpl implements UserService {
 
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return Users;
 	}
 
-	public User get(int id) {
+	public User get(int id) throws Exception {
 		User user = null;
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "select name,email,password from user where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -110,15 +122,16 @@ public class UserServiceImpl implements UserService {
 			}
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return user;
 	}
 
-	public User findByEmailAndPassword(String Email, String Password) {
+	public User findByEmailAndPassword(String Email, String Password) throws Exception {
 		User user = null;
-		
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "select * from user where email=? AND password= ?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, Email);
@@ -129,29 +142,33 @@ public class UserServiceImpl implements UserService {
 				user.setEmail(rs.getString(1));
 				user.setPassword(rs.getString(2));
 			}
-			
 
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return user;
 	}
-	public User findByEmail(String Email){
-		User user=null;
-		try{
-			Connection connection=getConnection();
-			String sql="select * from user where email=?";
-			PreparedStatement pstmt=connection.prepareStatement(sql);
-			pstmt.setString(1,Email);
-			ResultSet rs=pstmt.executeQuery();
-			while(rs.next()){
-				user=new UserImpl();
+
+	public User findByEmail(String Email) throws Exception {
+		User user = null;
+		connection = getConnection();
+		try {
+			String sql = "select * from user where email=?";
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, Email);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				user = new UserImpl();
 				user.setEmail(rs.getString(1));
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			System.out.println("ex");
+		} finally {
+			connection.close();
 		}
 		return user;
 	}
-	
+
 }

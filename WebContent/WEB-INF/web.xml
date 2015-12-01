@@ -13,8 +13,20 @@
     <servlet-class>com.phonebook.web.login.LoginController</servlet-class>
   </servlet>
   <servlet>
-  <servlet-name>ListController</servlet-name>
-  <servlet-class>com.phonebook.web.list.ListController</servlet-class>
+    <servlet-name>ListController</servlet-name>
+    <servlet-class>com.phonebook.web.contact.ListController</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditController</servlet-name>
+    <servlet-class>com.phonebook.web.contact.EditController</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateController</servlet-name>
+    <servlet-class>com.phonebook.web.contact.UpdateController</servlet-class>
+  </servlet>
+  <servlet>
+  <servlet-name>DeleteController</servlet-name>
+  <servlet-class>com.phonebook.web.contact.DeleteController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ContactController</servlet-name>
@@ -29,8 +41,20 @@
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  <servlet-name>ListController</servlet-name>
-  <url-pattern>/list</url-pattern>
+    <servlet-name>ListController</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditController</servlet-name>
+    <url-pattern>/edit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateController</servlet-name>
+    <url-pattern>/update</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  <servlet-name>DeleteController</servlet-name>
+  <url-pattern>/delete</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

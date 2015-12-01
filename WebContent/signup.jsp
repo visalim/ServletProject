@@ -24,12 +24,6 @@
 							  <input type="text" class="form-control" placeholder="Search Contact">
 							</div>
 						</div>
-						<div class="col-md-4">
-							<button type="button" class="btn btn-default btn-sm pull-right">
-								<span class="glyphicon glyphicon-plus"></span>
-								New Contact
-							</button>
-						</div>
 					</div>
 				</div>
 				<div class="panel-body">
@@ -87,7 +81,6 @@
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-md-4 col-md-offset-4">
-							Angularjs Demo by <i class="glyphicon glyphicon-user"></i> Jagadeesh Manne
 						</div>
 					</div>
 				</div>

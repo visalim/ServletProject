@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="com.phonebook.domain.Contact"%>
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -13,6 +14,7 @@
 		<![endif]-->
 	</head>
 	<body>
+	<% Contact contact = (Contact)request.getAttribute("contact"); %>
 		<div class="container">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -24,22 +26,27 @@
 							  <input type="text" class="form-control" placeholder="Search Contact">
 							</div>
 						</div>
-						<div class="col-md-4">
-							<button type="button" class="btn btn-default btn-sm pull-right">
-								<span class="glyphicon glyphicon-plus"></span>
-								New Contact
-							</button>
-						</div>
 					</div>
 				</div>
 				<div class="panel-body">
 					<div class="col-sm-6 col-md-4 col-md-offset-4">
+					
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<strong>Add Contact</strong>
+								<strong>
+								   <% if(contact != null) { %>
+									Update Contact
+									<%} else {%>
+									Add Contact
+									<%} %>
+								</strong>
 							</div>
 							<div class="panel-body">
-								<form role="form" action="contact" method="POST">
+								<form role="form" action='<%= contact != null ? "update" : "contact" %>' method="POST">
+								<input type="hidden" value="<%= contact != null ? contact.getId() : ""%>" name="id"/>
+								<% if(request.getAttribute("error")!=null){ %>
+								<%=request.getAttribute("error") %>
+								<%} %>
 									<fieldset>
 										<div class="row">
 											<div class="col-sm-12 col-md-10  col-md-offset-1 ">
@@ -48,7 +55,7 @@
 														<span class="input-group-addon">
 															<i class="glyphicon glyphicon-user"></i>
 														</span> 
-														<input class="form-control" placeholder="Name" name="name" type="text" autofocus>
+														<input class="form-control" placeholder="Name" name="name" type="text" value="<%= contact!=null?contact.getName():""%>" autofocus>
 													</div>
 												</div>
 												<div class="form-group">
@@ -56,7 +63,7 @@
 														<span class="input-group-addon">
 															<i class="glyphicon glyphicon-envelope"></i>
 														</span> 
-														<input class="form-control" placeholder="Email" name="email" type="text" autofocus>
+														<input class="form-control" placeholder="Email" name="email" value="<%=contact!=null?contact.getEmail():""%>" type="text" autofocus>
 													</div>
 												</div>
 												<div class="form-group">
@@ -64,7 +71,7 @@
 														<span class="input-group-addon">
 															<i class="glyphicon glyphicon-phone-alt"></i>
 														</span>
-														<input class="form-control" placeholder="Mobile" name="mobile" type="text" value="">
+														<input class="form-control" placeholder="Mobile" name="mobile" type="text" value="<%=contact!=null?contact.getMobile():""%>">
 													</div>
 												</div>
 												<div class="form-group">
@@ -81,7 +88,6 @@
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-md-4 col-md-offset-4">
-							Angularjs Demo by <i class="glyphicon glyphicon-user"></i> Jagadeesh Manne
 						</div>
 					</div>
 				</div>

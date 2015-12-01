@@ -1,3 +1,7 @@
+<%@page import="com.phonebook.domain.Contact"%>
+<%@page   import="java.util.List" %>
+<%@page import="com.phonebook.domain.impl.ContactImpl" %>
+<%-- <%@page import="com.phonebook.web.list.ListController"%> --%>
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -21,12 +25,6 @@
 							  <input type="text" class="form-control" placeholder="Search Contact">
 							</div>
 						</div>
-						<div class="col-md-4">
-							<button type="button" class="btn btn-primary btn-sm pull-right">
-								<span class="glyphicon glyphicon-plus"></span>
-								New Contact
-							</button>
-						</div>
 					</div>
 				</div>
 				<div class="panel-body">
@@ -34,57 +32,31 @@
 						<div class="col-md-12">
 							<div class="table-responsive">
 							  <table class="table table-bordered table-striped">
+							  <% List<ContactImpl> contacts=(List<ContactImpl>)request.getSession().getAttribute("List"); %>
 									<tr>
-										<th><span class="glyphicon glyphicon-user"></span> Name</th>
-										<th><span class="glyphicon glyphicon-envelope"></span> Email</th>
-										<th><span class="glyphicon glyphicon-phone-alt"></span> Mobile</th>
+										<th><span class="glyphicon glyphicon-user"></span> id</th>
+										<th><span class="glyphicon glyphicon-envelope"></span> Name</th>
+										<th><span class="glyphicon glyphicon-phone-alt"></span>Email</th>
 										<th><span class="glyphicon glyphicon-tasks"></span> Action</th>
 									</tr>
+									<%for(ContactImpl contact:contacts){ %>
 									<tr>
-										<td>Jagadeesh Manne</td>
-										<td>mannejkumar@gmail.com</td>
-										<td>8977099970</td>
 										<td>
-											<div class="col-md-3"><span class="glyphicon glyphicon-edit"></span> Edit</div>
-											<div class="col-md-4"><span class="glyphicon glyphicon-remove-circle"></span> Delete</div>
+										    <%=contact.getName()%>
+										    
+										</td>
+										<td>
+										<%=contact.getEmail()%>
+										</td>
+										<td>
+										<%=contact.getMobile()%>
+										</td>
+										<td> <a href="edit?id=<%=contact.getId()%>">Edit</a></br>
+											<a href="delete?id=<%=contact.getId()%>">Delete</a>
 										</td>
 									</tr>
-									<tr>
-										<td>Jagadeesh Manne</td>
-										<td>mannejkumar@gmail.com</td>
-										<td>8977099970</td>
-										<td>
-											<div class="col-md-3"><span class="glyphicon glyphicon-edit"></span> Edit</div>
-											<div class="col-md-4"><span class="glyphicon glyphicon-remove-circle"></span> Delete</div>
-										</td>
-									</tr>
-									<tr>
-										<td>Jagadeesh Manne</td>
-										<td>mannejkumar@gmail.com</td>
-										<td>8977099970</td>
-										<td>
-											<div class="col-md-3"><span class="glyphicon glyphicon-edit"></span> Edit</div>
-											<div class="col-md-4"><span class="glyphicon glyphicon-remove-circle"></span> Delete</div>
-										</td>
-									</tr>
-									<tr>
-										<td>Jagadeesh Manne</td>
-										<td>mannejkumar@gmail.com</td>
-										<td>8977099970</td>
-										<td>
-											<div class="col-md-3"><span class="glyphicon glyphicon-edit"></span> Edit</div>
-											<div class="col-md-4"><span class="glyphicon glyphicon-remove-circle"></span> Delete</div>
-										</td>
-									</tr>
-									<tr>
-										<td>Jagadeesh Manne</td>
-										<td>mannejkumar@gmail.com</td>
-										<td>8977099970</td>
-										<td>
-											<div class="col-md-3"><span class="glyphicon glyphicon-edit"></span> Edit</div>
-											<div class="col-md-4"><span class="glyphicon glyphicon-remove-circle"></span> Delete</div>
-										</td>
-									</tr>
+									<%} %>
+									
 							  </table>
 							</div>
 						</div>
@@ -93,7 +65,6 @@
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-md-4 col-md-offset-4">
-							Angularjs Demo by <i class="glyphicon glyphicon-user"></i> Jagadeesh Manne
 						</div>
 					</div>
 				</div>

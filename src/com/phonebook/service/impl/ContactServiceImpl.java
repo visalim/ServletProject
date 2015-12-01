@@ -7,22 +7,25 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.phonebook.domain.Contact;
 import com.phonebook.domain.impl.ContactImpl;
 import com.phonebook.service.ContactService;
+import com.phonebook.service.PhoneBookConstant;
 
 public class ContactServiceImpl implements ContactService {
+	
+	Connection connection = null;
+
 	public Connection getConnection() throws Exception {
-		Connection connection = null;
-		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/phonebook", "root", "root");
+		Class.forName(PhoneBookConstant.DRIVER_NAME);
+		connection = DriverManager.getConnection(PhoneBookConstant.DRIVER_URL, PhoneBookConstant.USER_NAME,
+				PhoneBookConstant.PASSWORD);
 		return connection;
 	}
 
-	public Contact save(Contact contact) {
+	public Contact save(Contact contact) throws Exception {
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			String sql = "insert into contact(id,name,email,mobile) values(?,?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, contact.getId());
@@ -36,15 +39,17 @@ public class ContactServiceImpl implements ContactService {
 			}
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return contact;
 	}
 
-	public boolean delete(int id) {
+	public boolean delete(int id) throws Exception {
+		connection = getConnection();
 		boolean isdeleted = false;
 		try {
-			Connection connection = getConnection();
-			String sql = "delete name,email,mobile from contact where id=?";
+			String sql = "delete from contact where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			int d = pstmt.executeUpdate();
@@ -54,29 +59,35 @@ public class ContactServiceImpl implements ContactService {
 
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return isdeleted;
 	}
 
-	public Contact update(Contact contact) {
+	public Contact update(Contact contact) throws Exception {
+		connection = getConnection();
 		try {
 			Connection connection = getConnection();
-			String sql = "update into contact set name=?,email=?,mobile=? where id=?";
+			String sql = "update  contact set name=?,email=?,mobile=? where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
 			pstmt.setString(1, contact.getName());
 			pstmt.setString(2, contact.getEmail());
 			pstmt.setString(3, contact.getMobile());
 			pstmt.setInt(4, contact.getId());
+			pstmt.executeUpdate();
 
 		} catch (Exception ex) {
 			System.out.println(ex);
+		} finally {
+			connection.close();
 		}
 		return contact;
 	}
 
-	public List<ContactImpl> list() {
+	public List<ContactImpl> list() throws Exception {
 		List<ContactImpl> contacts = new ArrayList<ContactImpl>();
+		connection = getConnection();
 		try {
 			Connection connection = getConnection();
 			PreparedStatement pstmt = null;
@@ -93,14 +104,16 @@ public class ContactServiceImpl implements ContactService {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			connection.close();
 		}
 		return contacts;
 	}
 
-	public Contact get(int id) {
+	public Contact get(int id) throws Exception {
 		Contact contact = null;
+		connection = getConnection();
 		try {
-			Connection connection = getConnection();
 			PreparedStatement pstmt = null;
 			String sql = "select id,name,email,mobile  from contact where id=?";
 			pstmt = connection.prepareStatement(sql);
@@ -116,6 +129,8 @@ public class ContactServiceImpl implements ContactService {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			connection.close();
 		}
 		return contact;
 	}

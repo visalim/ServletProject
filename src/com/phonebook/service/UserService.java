@@ -2,23 +2,22 @@ package com.phonebook.service;
 
 import java.util.List;
 import com.phonebook.service.UserService;
-
-import com.phonebook.domain.impl.UserImpl;
 import com.phonebook.domain.User;
 
 public interface UserService {
-	User save(User user);
-
-	boolean delete(int id);
-
-	User update(User user);
-
-	List<User> list();
-
-	User get(int id);
 	
-	User findByEmailAndPassword(String Email,String Password);
-	
-	User findByEmail(String Email);
+	User save(User user) throws Exception;
+
+	boolean delete(int id) throws Exception;
+
+	User update(User user) throws Exception;
+
+	List<User> list() throws Exception;
+
+	User get(int id) throws Exception;
+
+	User findByEmailAndPassword(String Email, String Password) throws Exception;
+
+	User findByEmail(String Email) throws Exception;
 
 }
