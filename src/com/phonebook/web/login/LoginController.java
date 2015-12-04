@@ -30,6 +30,19 @@ public class LoginController extends HttpServlet {
 		String newPassword = request.getParameter("password");
 		UserService userservice = new UserServiceImpl();
 		User user = null;
+		boolean hasError = false;
+		if (newEmail == null || newEmail.trim().length()==0) {
+			request.setAttribute("usernameerror", "enter username");
+			hasError = true;
+		}
+		if (newPassword == null || newPassword.trim().length()==0) {
+			request.setAttribute("passworderror", "enter password");
+			hasError = true;
+		}
+		if (hasError) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);
+		}
 		try {
 			user = userservice.findByEmailAndPassword(newEmail, newPassword);
 		} catch (Exception ex) {

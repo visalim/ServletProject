@@ -1,7 +1,6 @@
 package com.phonebook.service.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -13,18 +12,13 @@ import com.phonebook.service.ContactService;
 import com.phonebook.service.PhoneBookConstant;
 
 public class ContactServiceImpl implements ContactService {
-	
-	Connection connection = null;
 
-	public Connection getConnection() throws Exception {
-		Class.forName(PhoneBookConstant.DRIVER_NAME);
-		connection = DriverManager.getConnection(PhoneBookConstant.DRIVER_URL, PhoneBookConstant.USER_NAME,
-				PhoneBookConstant.PASSWORD);
-		return connection;
-	}
+	Connection connection = null;
+	ServletDAO dao = new ServletDAO();
 
 	public Contact save(Contact contact) throws Exception {
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "insert into contact(id,name,email,mobile) values(?,?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -46,7 +40,8 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	public boolean delete(int id) throws Exception {
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		boolean isdeleted = false;
 		try {
 			String sql = "delete from contact where id=?";
@@ -66,9 +61,9 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	public Contact update(Contact contact) throws Exception {
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
-			Connection connection = getConnection();
 			String sql = "update  contact set name=?,email=?,mobile=? where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, contact.getName());
@@ -87,9 +82,9 @@ public class ContactServiceImpl implements ContactService {
 
 	public List<ContactImpl> list() throws Exception {
 		List<ContactImpl> contacts = new ArrayList<ContactImpl>();
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
-			Connection connection = getConnection();
 			PreparedStatement pstmt = null;
 			String sql = "select * from contact";
 			pstmt = connection.prepareStatement(sql);
@@ -111,8 +106,9 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	public Contact get(int id) throws Exception {
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		Contact contact = null;
-		connection = getConnection();
 		try {
 			PreparedStatement pstmt = null;
 			String sql = "select id,name,email,mobile  from contact where id=?";

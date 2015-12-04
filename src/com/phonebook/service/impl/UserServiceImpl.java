@@ -1,7 +1,6 @@
 package com.phonebook.service.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -15,16 +14,11 @@ import com.phonebook.domain.User;
 public class UserServiceImpl implements UserService {
 
 	Connection connection = null;
-
-	public Connection getConnection() throws Exception {
-		Class.forName(PhoneBookConstant.DRIVER_NAME);
-		Connection connection = DriverManager.getConnection(PhoneBookConstant.DRIVER_URL, PhoneBookConstant.USER_NAME,
-				PhoneBookConstant.PASSWORD);
-		return connection;
-	}
+	ServletDAO dao = new ServletDAO();
 
 	public User save(User user) throws Exception {
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "insert into  user(name,email,password)values(?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -46,7 +40,8 @@ public class UserServiceImpl implements UserService {
 
 	public boolean delete(int id) throws Exception {
 		boolean isdeleted = false;
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "delete from user where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -65,7 +60,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User update(User user) throws Exception {
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "update user set name=?,email=?,password=? where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -84,7 +80,8 @@ public class UserServiceImpl implements UserService {
 
 	public List<User> list() throws Exception {
 		List<User> Users = new ArrayList<User>();
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "select id,name,email from user";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -108,7 +105,8 @@ public class UserServiceImpl implements UserService {
 
 	public User get(int id) throws Exception {
 		User user = null;
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "select name,email,password from user where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -130,7 +128,8 @@ public class UserServiceImpl implements UserService {
 
 	public User findByEmailAndPassword(String Email, String Password) throws Exception {
 		User user = null;
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "select * from user where email=? AND password= ?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -153,7 +152,8 @@ public class UserServiceImpl implements UserService {
 
 	public User findByEmail(String Email) throws Exception {
 		User user = null;
-		connection = getConnection();
+		connection = dao.getConnection(PhoneBookConstant.DRIVER_NAME, PhoneBookConstant.DRIVER_URL,
+				PhoneBookConstant.USER_NAME, PhoneBookConstant.PASSWORD);
 		try {
 			String sql = "select * from user where email=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -168,6 +168,7 @@ public class UserServiceImpl implements UserService {
 		} finally {
 			connection.close();
 		}
+		System.out.println("niharika");
 		return user;
 	}
 

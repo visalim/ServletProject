@@ -2,19 +2,29 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="com.phonebook.domain.Contact"%>
+<%@ page import="java.util.Map"%>
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="custom.css" rel="stylesheet">
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+		<style>
+			.error {
+				color:red;
+				font-size:12px;
+			}
+		</style>
 	</head>
 	<body>
-	<% Contact contact = (Contact)request.getAttribute("contact"); %>
+	<% 
+		Contact contact = (Contact)request.getAttribute("contact");
+		Map<String, Object> errors = (Map<String,Object>)request.getAttribute("errors");
+		boolean isNew = true;
+		if(contact != null && contact.getId() != 0) {
+			isNew = false;
+		}
+	%>
 		<div class="container">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -34,19 +44,16 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<strong>
-								   <% if(contact != null) { %>
-									Update Contact
-									<%} else {%>
+								   <% if(isNew) { %>
 									Add Contact
+									<%} else { %>
+									Update Contact
 									<%} %>
 								</strong>
 							</div>
 							<div class="panel-body">
-								<form role="form" action='<%= contact != null ? "update" : "contact" %>' method="POST">
-								<input type="hidden" value="<%= contact != null ? contact.getId() : ""%>" name="id"/>
-								<% if(request.getAttribute("error")!=null){ %>
-								<%=request.getAttribute("error") %>
-								<%} %>
+								<form role="form" action='<%= isNew ? "contact" : "update" %>' method="POST">
+								<input type="hidden" value="<%= isNew ? "" : contact.getId()%>" name="id"/>
 									<fieldset>
 										<div class="row">
 											<div class="col-sm-12 col-md-10  col-md-offset-1 ">
@@ -57,6 +64,9 @@
 														</span> 
 														<input class="form-control" placeholder="Name" name="name" type="text" value="<%= contact!=null?contact.getName():""%>" autofocus>
 													</div>
+													<% if(errors != null &&  errors.get("name") != null) { %>
+															<span class="error"><%= errors.get("name") %></span>
+													<% } %>
 												</div>
 												<div class="form-group">
 													<div class="input-group">
@@ -65,6 +75,9 @@
 														</span> 
 														<input class="form-control" placeholder="Email" name="email" value="<%=contact!=null?contact.getEmail():""%>" type="text" autofocus>
 													</div>
+													<% if(errors != null && errors.get("email") != null) { %>
+														<span class="error"><%= errors.get("email") %></span>
+													<% } %>
 												</div>
 												<div class="form-group">
 													<div class="input-group">
@@ -73,6 +86,9 @@
 														</span>
 														<input class="form-control" placeholder="Mobile" name="mobile" type="text" value="<%=contact!=null?contact.getMobile():""%>">
 													</div>
+													<% if(errors != null &&  errors.get("mobile") != null) { %>
+														<span class="error"><%= errors.get("mobile") %></span>
+													<% } %>
 												</div>
 												<div class="form-group">
 													<input type="submit" class="btn btn-sm btn-primary btn-block" value="Save Contact">

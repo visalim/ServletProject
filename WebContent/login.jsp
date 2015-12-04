@@ -8,9 +8,6 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="custom.css" rel="stylesheet">
-<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
 </head>
 <body>
 	<div class="container">
@@ -51,6 +48,13 @@
 														class="glyphicon glyphicon-user"></i>
 													</span> <input class="form-control" placeholder="Username"
 														name="email" type="text" autofocus>
+														<%
+									if (request.getAttribute("usernameerror") != null) {
+								%>
+								<%=(String) request.getAttribute("usernameerror")%>
+								<%
+									}
+								%>
 												</div>
 											</div>
 											<div class="form-group">
@@ -59,6 +63,14 @@
 														class="glyphicon glyphicon-lock"></i>
 													</span> <input class="form-control" placeholder="Password"
 														name="password" type="password" value="">
+																			<%
+									if (request.getAttribute("passworderror") != null) {
+								%>
+								<%=(String) request.getAttribute("passworderror")%>
+								<%
+									}
+								%>
+														
 												</div>
 											</div>
 											<div class="form-group">

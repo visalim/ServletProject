@@ -1,6 +1,8 @@
 package com.phonebook.web.user;
 
 import java.io.IOException;
+
+import javax.net.ssl.SSLEngineResult.HandshakeStatus;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +33,24 @@ public class UserController extends HttpServlet {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		boolean hasErrors = false;
+		if (name == null ||  name.trim().length() == 0) {
+			request.setAttribute("userNameError", "enter username");
+			hasErrors = true;
+		} 
+		if (email == null || email.trim().length()==0) {
+			request.setAttribute("emailError", "enter email");
+			hasErrors = true;
+		} 
+		if (password == null || password.trim().length()==0) {
+			request.setAttribute("passwordError", "enter Password");
+			hasErrors = true;
+		}
+		if (hasErrors) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("signup.jsp");
+			dispatcher.forward(request, response);
+		}
+
 		User user = null;
 		try {
 			user = userservice.findByEmail(email);
