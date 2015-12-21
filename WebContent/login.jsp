@@ -8,6 +8,39 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="custom.css" rel="stylesheet">
+<script src="jquery/jquery-1.11.3.min.js"></script>
+<script>
+	
+			function isValidUsername() {
+		var usernameField = $("#username");
+		var username = usernameField.val();
+		if (username.length != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	function isValidPassword() {
+		var passwordField = $("#password");
+		var password = passwordField.val();
+		if (password.length != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	function  isvalidForm() {
+				if (!isValidUsername() || !isValidPassword()) {
+			alert("invalid username/password")
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
+
+</script>
 </head>
 <body>
 	<div class="container">
@@ -31,7 +64,8 @@
 							<strong> Sign in to continue</strong>
 						</div>
 						<div class="panel-body">
-							<form role="form" action="login" method="POST">
+							<form role="form" action="login" method="POST"
+								onsubmit="return isvalidForm()">
 								<%
 									if (request.getAttribute("error") != null) {
 								%>
@@ -47,14 +81,14 @@
 													<span class="input-group-addon"> <i
 														class="glyphicon glyphicon-user"></i>
 													</span> <input class="form-control" placeholder="Username"
-														name="email" type="text" autofocus>
-														<%
-									if (request.getAttribute("usernameerror") != null) {
-								%>
-								<%=(String) request.getAttribute("usernameerror")%>
-								<%
-									}
-								%>
+														name="email" type="text" autofocus id="username">
+													<%
+														if (request.getAttribute("usernameerror") != null) {
+													%>
+													<%=(String) request.getAttribute("usernameerror")%>
+													<%
+														}
+													%>
 												</div>
 											</div>
 											<div class="form-group">
@@ -62,20 +96,21 @@
 													<span class="input-group-addon"> <i
 														class="glyphicon glyphicon-lock"></i>
 													</span> <input class="form-control" placeholder="Password"
-														name="password" type="password" value="">
-																			<%
-									if (request.getAttribute("passworderror") != null) {
-								%>
-								<%=(String) request.getAttribute("passworderror")%>
-								<%
-									}
-								%>
-														
+														name="password" type="password" value="" id="password">
+													<%
+														if (request.getAttribute("passworderror") != null) {
+													%>
+													<%=(String) request.getAttribute("passworderror")%>
+													<%
+														}
+													%>
+
 												</div>
 											</div>
 											<div class="form-group">
-												<input type="submit"
+												<input type="submit" id="submit"
 													class="btn btn-sm btn-primary btn-block" value="Sign in">
+
 											</div>
 										</div>
 									</div>
