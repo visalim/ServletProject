@@ -11,10 +11,10 @@
 <script src="jquery/jquery-1.11.3.min.js"></script>
 <script>
 	
-			function isValidUsername() {
+	/*function isValidUsername() {
 		var usernameField = $("#username");
 		var username = usernameField.val();
-		if (username.length != 0) {
+		if (username.length != 0 && username.length >= 10) {
 			return true;
 		} else {
 			return false;
@@ -30,14 +30,29 @@
 		}
 	}
 	function  isvalidForm() {
-				if (!isValidUsername() || !isValidPassword()) {
-			alert("invalid username/password")
-			return false;
-		} else {
-			return true;
-		}
-
-	}
+				if (!isValidUsername()) {
+					alert("disable");
+					$("#password").prop('disabled',true);
+					
+				}else{
+					alert("enable");
+					$("#password").prop('disabled',false);
+				}
+				return false;
+	}*/
+	$(document).ready(function(){
+		$("#username").keyup(function(){
+			var usernameField = $("#username");
+			var passwordField = $("#password");
+			var username = usernameField.val();
+			if(username.length != 0 && username.length>=10){
+				$("#password").prop("disabled",false);
+			}else{
+				$("#password").prop("disabled",true);
+			}
+			
+		});
+	});
 
 
 </script>
